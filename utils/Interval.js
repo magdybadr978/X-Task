@@ -10,19 +10,22 @@ export function startScraper(accounts, stockSymbol, interval) {
     // Loop through each Twitter account and scrape it for stock symbol mentions
     for (let account of accounts) {
       const mentionCount = await scrapeTwitter(account, stockSymbol);
-      console.log(
-        `'${stockSymbol}' was mentioned '${mentionCount}' times on @${account} in the last '${interval}' minutes.`
-      );
+      if (mentionCount == -1) {
+        console.log("fail to calculate mention of this account");
+      }
+      else {
+        console.log(
+          `'${stockSymbol}' was mentioned '${mentionCount}' times on @${account} in the last '${interval}' minutes.`
+        );
+      }
     }
   });
 }
 
-
-// * * * * * 
+// * * * * *
 // | | | | |
 // | | | | └── Day of the week (0 - 7) (0 or 7 is Sunday)
 // | | | └──── Month (1 - 12)
 // | | └────── Day of the month (1 - 31)
 // | └──────── Hour (0 - 23)
 // └────────── Minute (0 - 59)
-

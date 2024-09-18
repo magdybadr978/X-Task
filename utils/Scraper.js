@@ -3,7 +3,7 @@ import puppeteer from "puppeteer";
 export const scrapeTwitter = async (account, stockSymbol) => {
   //to launch new browser
   // headless: false => to open browser with UI
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: true });
   // newPage : method to open new tap in browser
   const page = await browser.newPage();
 
@@ -11,8 +11,7 @@ export const scrapeTwitter = async (account, stockSymbol) => {
     // goto : puppeteer method typing URL in web browser bar
     // waitUntil : used for dynamic pages to know every thing is loaded
     await page.goto(`https://twitter.com/${account}`, {
-      waitUntil: "networkidle2",
-      timeout: 60000,
+      waitUntil: "networkidle2"
     });
 
     //On Twitter, each tweet is typically wrapped in an <article> element,
@@ -37,7 +36,7 @@ export const scrapeTwitter = async (account, stockSymbol) => {
     return mentionCount;
   } catch (error) {
     console.error(`Error in @${account}:`, error); // Handle errors
-    return 0;
+    return -1;
   } finally {
     await browser.close();
   }
